@@ -1,0 +1,374 @@
+---
+import SectionHeader from "@/components/elements/SectionHeader.astro";
+import AnimatedText from "@/components/ui/AnimatedText.astro";
+import Badge from "@/components/ui/Badge.astro";
+import Button from "@/components/ui/Button.astro";
+import Layout from "@/layouts/Layout.astro";
+import EvaluatorThemeStack from "@/components/home/EvaluatorThemeStack.astro";
+import {
+  ArrowRight,
+  Bot,
+  ClipboardCheck,
+  Clock,
+  Database,
+  FileText,
+  Hammer,
+  Search,
+  Send,
+  Star,
+  Trophy,
+  Users,
+  Zap,
+} from "@lucide/astro";
+
+const stages = [
+  {
+    num: "01",
+    title: "QUALIFY",
+    desc: "Take the Round 1 qualification quiz. Prove your knowledge and earn your spot among the Top 25.",
+    icon: Trophy,
+    color: "text-accent",
+  },
+  {
+    num: "02",
+    title: "BUILD",
+    desc: "Choose a theme, receive your dataset, and build a RAG-powered chatbot in 4 hours.",
+    icon: Hammer,
+    color: "text-primary",
+  },
+  {
+    num: "03",
+    title: "EVALUATE",
+    desc: "Submit your chatbot. A theme-specific evaluator will test and score your solution.",
+    icon: ClipboardCheck,
+    color: "text-emerald-500",
+  },
+];
+
+const journeySteps = [
+  { icon: FileText, label: "Round 1 Quiz", desc: "Qualification assessment" },
+  { icon: Trophy, label: "Top 25 Selected", desc: "Top performers advance" },
+  { icon: Search, label: "Choose Theme", desc: "Select 1 of 5 themes" },
+  { icon: Database, label: "Receive Dataset", desc: "Theme files unlocked" },
+  { icon: Clock, label: "4-Hour Build", desc: "Construct RAG pipeline" },
+  { icon: Bot, label: "Deploy Chatbot", desc: "Make publicly accessible" },
+  { icon: Send, label: "Submit Link", desc: "Submit application URL" },
+  { icon: Star, label: "Evaluation", desc: "Theme evaluator scores" },
+  { icon: Zap, label: "Final Results", desc: "Rankings & scores published" },
+];
+
+const round2Steps = [
+  { icon: Search, label: "Choose Theme", desc: "Pick 1 of 5 themes" },
+  { icon: Database, label: "Get Dataset", desc: "Receive theme data" },
+  { icon: Zap, label: "Build Pipeline", desc: "Create RAG system" },
+  { icon: Bot, label: "Deploy Chatbot", desc: "Make it accessible" },
+  { icon: Send, label: "Submit URL", desc: "Submit your link" },
+  { icon: ClipboardCheck, label: "Evaluated", desc: "Theme evaluator" },
+];
+---
+
+<Layout
+  title="AI Odyssey presents: The LLM Design Workshop — Day 4 RAG Hackathon"
+  description="AI Odyssey presents: The LLM Design Workshop. 4 Hours. 5 Themes. 25 Teams. One RAG Challenge."
+  keywords="AI Odyssey, LLM Design Workshop, RAG hackathon, retrieval augmented generation, chatbot challenge"
+>
+
+  <!-- Hero Section -->
+  <div class="relative site-container z-20 w-full mx-auto mt-16 px-4 md:mt-18 lg:mt-32 xl:px-0">
+    <div class="relative w-full px-4 flex flex-col items-center justify-between md:flex-row mb-16">
+      <!-- Left: Text -->
+      <div class="relative w-full md:max-w-[540px] md:w-1/2 text-center sm:text-left sm:-mt-8">
+        <div class="flex flex-wrap gap-2 justify-center sm:justify-start mb-6" data-aos="fade-up-xs" data-aos-delay="100" data-aos-duration="500" data-aos-once="true">
+          <Badge variant="primary">AI Odyssey presents</Badge>
+          <Badge variant="accent">Day 4 — The LLM Design Workshop</Badge>
+        </div>
+
+        <h1 class="mb-4">
+          <AnimatedText
+            content="Build. Retrieve. Generate."
+            delay={0.1}
+            duration={0.5}
+            stagger={0.08}
+            class="text-4xl leading-tight md:text-4xl lg:text-6xl font-brand"
+          />
+        </h1>
+
+        <div class="mb-6">
+          <AnimatedText
+            content="4 Hours. 5 Themes. 25 Teams. One RAG Challenge. Build a working RAG-powered chatbot in AI Odyssey presents: The LLM Design Workshop."
+            delay={0.3}
+            duration={0.5}
+            stagger={0.015}
+            class="text-base text-neutral-600 dark:text-neutral-300 leading-relaxed"
+          />
+        </div>
+
+        <div class="flex flex-wrap gap-3 justify-center sm:justify-start" data-aos="fade-up-sm" data-aos-delay="600" data-aos-duration="500" data-aos-once="true">
+          <Button url="/how-it-works" type="fill">
+            How It Works <ArrowRight size={16} />
+          </Button>
+          <Button url="/submit" type="solid">
+            Submit Chatbot <Send size={16} />
+          </Button>
+        </div>
+      </div>
+
+      <!-- Right: RAG Pipeline Visual -->
+      <div
+        class="relative justify-end w-full mt-16 md:flex md:pl-10 md:w-1/2 md:mt-0 md:translate-y-4 xl:translate-y-0"
+        data-aos="fade-left-sm"
+        data-aos-delay="300"
+        data-aos-duration="800"
+        data-aos-once="true"
+      >
+        <div class="w-full max-w-md mx-auto">
+          <!-- RAG Pipeline SVG -->
+          <svg viewBox="0 0 400 340" class="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+            <!-- Background circles -->
+            <circle cx="200" cy="170" r="140" fill="none" stroke="var(--color-primary)" stroke-width="0.5" stroke-dasharray="4 4" opacity="0.2" />
+            <circle cx="200" cy="170" r="100" fill="none" stroke="var(--color-primary)" stroke-width="0.5" stroke-dasharray="4 4" opacity="0.15" />
+
+            <!-- DATA node -->
+            <g class="rag-node" style="--node-delay: 0s;">
+              <rect x="155" y="20" width="90" height="40" rx="10" fill="var(--color-primary)" fill-opacity="0.12" stroke="var(--color-primary)" stroke-width="1.5" />
+              <text x="200" y="44" text-anchor="middle" fill="var(--color-primary)" font-size="13" font-weight="600" font-family="Inter, sans-serif">DATA</text>
+            </g>
+
+            <!-- Arrow DATA → EMBED -->
+            <line x1="200" y1="60" x2="200" y2="90" stroke="var(--color-primary)" stroke-width="1.5" stroke-dasharray="4 3" class="rag-arrow" style="--arrow-delay: 0.3s;" />
+            <polygon points="195,88 205,88 200,96" fill="var(--color-primary)" class="rag-arrow" style="--arrow-delay: 0.3s;" />
+
+            <!-- EMBED node -->
+            <g class="rag-node" style="--node-delay: 0.5s;">
+              <rect x="140" y="96" width="120" height="40" rx="10" fill="var(--color-accent)" fill-opacity="0.15" stroke="var(--color-accent)" stroke-width="1.5" />
+              <text x="200" y="120" text-anchor="middle" fill="#b8960a" font-size="12" font-weight="600" font-family="Inter, sans-serif">EMBEDDINGS</text>
+            </g>
+
+            <!-- Arrow EMBED → RETRIEVE -->
+            <line x1="200" y1="136" x2="200" y2="166" stroke="var(--color-primary)" stroke-width="1.5" stroke-dasharray="4 3" class="rag-arrow" style="--arrow-delay: 0.8s;" />
+            <polygon points="195,164 205,164 200,172" fill="var(--color-primary)" class="rag-arrow" style="--arrow-delay: 0.8s;" />
+
+            <!-- RETRIEVE node -->
+            <g class="rag-node" style="--node-delay: 1s;">
+              <rect x="140" y="172" width="120" height="40" rx="10" fill="var(--color-primary)" fill-opacity="0.15" stroke="var(--color-primary)" stroke-width="1.5" />
+              <text x="200" y="196" text-anchor="middle" fill="var(--color-primary)" font-size="12" font-weight="600" font-family="Inter, sans-serif">RETRIEVE</text>
+            </g>
+
+            <!-- Arrow RETRIEVE → LLM -->
+            <line x1="200" y1="212" x2="200" y2="242" stroke="var(--color-primary)" stroke-width="1.5" stroke-dasharray="4 3" class="rag-arrow" style="--arrow-delay: 1.3s;" />
+            <polygon points="195,240 205,240 200,248" fill="var(--color-primary)" class="rag-arrow" style="--arrow-delay: 1.3s;" />
+
+            <!-- LLM / RAG node (prominent) -->
+            <g class="rag-node" style="--node-delay: 1.5s;">
+              <rect x="145" y="248" width="110" height="40" rx="12" fill="var(--color-primary)" fill-opacity="0.25" stroke="var(--color-primary)" stroke-width="2" />
+              <text x="200" y="272" text-anchor="middle" fill="var(--color-primary)" font-size="14" font-weight="700" font-family="Inter, sans-serif">RAG</text>
+            </g>
+
+            <!-- Arrow RAG → CHATBOT -->
+            <line x1="200" y1="288" x2="200" y2="300" stroke="var(--color-primary)" stroke-width="1.5" stroke-dasharray="4 3" class="rag-arrow" style="--arrow-delay: 1.8s;" />
+            <polygon points="195,298 205,298 200,306" fill="var(--color-primary)" class="rag-arrow" style="--arrow-delay: 1.8s;" />
+
+            <!-- CHATBOT node -->
+            <g class="rag-node rag-chatbot-node" style="--node-delay: 2s;">
+              <rect x="148" y="306" width="104" height="32" rx="16" fill="var(--color-primary)" stroke="var(--color-primary)" stroke-width="1" />
+              <text x="200" y="326" text-anchor="middle" fill="white" font-size="12" font-weight="600" font-family="Inter, sans-serif">CHATBOT</text>
+              <!-- Live dot -->
+              <circle cx="240" cy="312" r="4" fill="#10b981" class="rag-live-dot" />
+            </g>
+
+            <!-- Side labels -->
+            <text x="60" y="46" fill="var(--color-primary)" font-size="9" font-weight="500" font-family="Inter, sans-serif" opacity="0.5">Documents</text>
+            <text x="290" y="120" fill="#b8960a" font-size="9" font-weight="500" font-family="Inter, sans-serif" opacity="0.5">Vector Store</text>
+            <text x="50" y="196" fill="var(--color-primary)" font-size="9" font-weight="500" font-family="Inter, sans-serif" opacity="0.5">Semantic Search</text>
+            <text x="290" y="272" fill="var(--color-primary)" font-size="9" font-weight="500" font-family="Inter, sans-serif" opacity="0.5">Generation</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overview: Three Stages -->
+  <section class="py-16 md:py-24 site-container">
+    <SectionHeader title="How the Hackathon Works" description="Three stages. One goal. Build the best RAG chatbot." />
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+      {stages.map((stage, i) => (
+        <div
+          class="relative p-8 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/10 dark:border-neutral-700 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+          data-aos="fade-up-sm"
+          data-aos-delay={i * 120}
+          data-aos-once="true"
+        >
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-5xl font-brand text-primary/20 dark:text-primary/15 leading-none">{stage.num}</span>
+            <stage.icon class={`w-6 h-6 ${stage.color}`} />
+          </div>
+          <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-2 uppercase tracking-wide">{stage.title}</h3>
+          <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">{stage.desc}</p>
+          {i < 2 && (
+            <div class="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 z-10">
+              <ArrowRight class="w-5 h-5 text-primary/30" />
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>
+
+  <!-- Fanned-Out Evaluator & Theme Stack Section (Interactive tilt cards as requested) -->
+  <section class="py-16 md:py-24 site-container">
+    <SectionHeader
+      title="5 Themes • 5 Evaluators"
+      description="Each theme track is paired with a dedicated evaluator. Hover over the cards below to explore the evaluators and themes."
+    />
+    <div class="mt-8" data-aos="fade-up-sm" data-aos-once="true">
+      <EvaluatorThemeStack />
+    </div>
+  </section>
+
+  <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>
+
+  <!-- Round 1 Section -->
+  <section class="py-16 md:py-24 site-container">
+    <SectionHeader title="Round 1 — Qualification" description="Your first challenge is to qualify. Take the qualification quiz — the Top 25 teams advance to Round 2." />
+    <div class="max-w-3xl mx-auto mt-8" data-aos="fade-up-xs" data-aos-once="true">
+      <!-- Flow Visualization -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-2">
+        {[
+          { icon: Users, label: "Participants", bg: "bg-primary/10" },
+          { icon: FileText, label: "QUIZ", bg: "bg-accent/15" },
+          { icon: Trophy, label: "TOP 25", bg: "bg-emerald-500/10" },
+          { icon: Zap, label: "ROUND 2", bg: "bg-primary/15" },
+        ].map((step, i) => (
+          <Fragment>
+            <div class="flex flex-col items-center gap-2">
+              <div class={`p-4 rounded-xl ${step.bg} border border-primary/10 dark:border-neutral-700`}>
+                <step.icon class="w-6 h-6 text-primary" />
+              </div>
+              <span class="text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">{step.label}</span>
+            </div>
+            {i < 3 && (
+              <ArrowRight class="w-5 h-5 text-primary/30 hidden sm:block flex-shrink-0" />
+            )}
+          </Fragment>
+        ))}
+      </div>
+      <div class="flex justify-center mt-10">
+        <Button url="/top-25" type="fill">View Top 25 Teams <ArrowRight size={16} /></Button>
+      </div>
+    </div>
+  </section>
+
+  <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>
+
+  <!-- Round 2 Preview -->
+  <section class="py-16 md:py-24 site-container">
+    <SectionHeader title="Round 2 — The RAG Challenge" description="Top 25 teams choose a theme, receive a dataset, and build a RAG-powered chatbot in 4 hours." />
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-8 max-w-4xl mx-auto">
+      {round2Steps.map((step, i) => (
+        <div
+          class="flex flex-col items-center p-4 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/10 dark:border-neutral-700 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+          data-aos="fade-up-sm"
+          data-aos-delay={i * 80}
+          data-aos-once="true"
+        >
+          <step.icon class="w-5 h-5 text-primary mb-2" />
+          <span class="text-xs font-semibold text-neutral-800 dark:text-neutral-100">{step.label}</span>
+          <span class="text-[10px] text-neutral-400 dark:text-neutral-500 mt-1">{step.desc}</span>
+        </div>
+      ))}
+    </div>
+    <div class="text-center mt-8">
+      <Badge variant="primary">Themes Coming Soon</Badge>
+    </div>
+  </section>
+
+  <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>
+
+  <!-- Participant Journey -->
+  <section class="py-16 md:py-24 site-container">
+    <SectionHeader title="Your Journey" description="From quiz to results — every step of the hackathon experience." />
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 mt-8 max-w-5xl mx-auto">
+      {journeySteps.map((step, i) => (
+        <div
+          class="flex flex-col items-center p-6 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/10 dark:border-neutral-700 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+          data-aos="fade-up-sm"
+          data-aos-delay={i * 60}
+          data-aos-once="true"
+        >
+          <step.icon class="w-6 h-6 text-primary mb-3" />
+          <h4 class="text-base font-semibold text-neutral-800 dark:text-neutral-100 mb-1">{step.label}</h4>
+          <p class="text-xs text-neutral-400 dark:text-neutral-500 leading-relaxed">{step.desc}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-12 md:py-20 site-container rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/10 dark:border-neutral-700" data-aos="fade-up-xs" data-aos-once="true">
+    <div class="max-w-2xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-brand mb-4" data-aos="fade-up-xs" data-aos-once="true" data-aos-delay="200">Ready to Submit?</h2>
+      <p class="text-neutral-600 dark:text-neutral-300 mb-8 leading-relaxed" data-aos="fade-up-xs" data-aos-once="true" data-aos-delay="300">
+        Build your RAG chatbot and submit your deployed URL for evaluation.
+      </p>
+      <div class="flex flex-wrap justify-center gap-3" data-aos="fade-up-xs" data-aos-once="true" data-aos-delay="400">
+        <Button url="/submit" type="fill" size="lg">
+          Submit Chatbot <Send size={18} />
+        </Button>
+        <Button url="/how-it-works" size="lg">
+          How It Works
+        </Button>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  /* RAG Pipeline SVG Animations */
+  .rag-node {
+    opacity: 0;
+    animation: rag-node-in 0.6s ease-out forwards;
+    animation-delay: var(--node-delay, 0s);
+  }
+  @keyframes rag-node-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .rag-arrow {
+    opacity: 0;
+    animation: rag-arrow-in 0.4s ease-out forwards;
+    animation-delay: var(--arrow-delay, 0s);
+  }
+  @keyframes rag-arrow-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .rag-live-dot {
+    animation: rag-live-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+  @keyframes rag-live-ping {
+    0% { r: 4; opacity: 1; }
+    50% { r: 8; opacity: 0.4; }
+    100% { r: 4; opacity: 1; }
+  }
+
+  .rag-chatbot-node rect {
+    animation: rag-chatbot-glow 3s ease-in-out infinite;
+    animation-delay: 2.5s;
+  }
+  @keyframes rag-chatbot-glow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.15); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rag-node, .rag-arrow, .rag-live-dot, .rag-chatbot-node rect {
+      animation: none !important;
+      opacity: 1 !important;
+    }
+  }
+</style>

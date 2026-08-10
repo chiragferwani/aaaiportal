@@ -1,0 +1,279 @@
+---
+import PageHeader from "@/components/elements/PageHeader.astro";
+import SectionHeader from "@/components/elements/SectionHeader.astro";
+import FAQ from "@/components/sections/FAQ.astro";
+import Badge from "@/components/ui/Badge.astro";
+import Button from "@/components/ui/Button.astro";
+import Layout from "@/layouts/Layout.astro";
+import {
+	ArrowRight,
+	Bot,
+	CheckCircle,
+	ClipboardCheck,
+	Clock,
+	Database,
+	FileText,
+	Hammer,
+	Search,
+	Send,
+	Star,
+	Target,
+	Trophy,
+	Users,
+	Zap,
+} from "@lucide/astro";
+
+const faqItems = [
+	{
+		question: "How many people per team?",
+		answer: "Each team consists of 4 participants.",
+	},
+	{
+		question: "How many themes are there?",
+		answer: "There are 5 themes — details will be announced soon.",
+	},
+	{
+		question: "How long is the build challenge?",
+		answer: "4 hours from the moment Round 2 begins.",
+	},
+	{
+		question: "What do I need to submit?",
+		answer:
+			"A deployed chatbot URL that uses RAG on your assigned dataset. The chatbot must be publicly accessible.",
+	},
+	{
+		question: "How is evaluation done?",
+		answer:
+			"Each theme has a dedicated evaluator who tests your chatbot and scores it based on criteria that will be announced soon.",
+	},
+	{
+		question: "Can I change my theme after selecting?",
+		answer: "No. Theme selection is final — choose wisely.",
+	},
+];
+
+const round2Steps = [
+	{
+		icon: Search,
+		label: "Choose Theme",
+		desc: "Browse and select 1 of 5 available themes",
+	},
+	{
+		icon: Database,
+		label: "Receive Dataset",
+		desc: "Get your theme-specific data files",
+	},
+	{
+		icon: Zap,
+		label: "Build RAG Pipeline",
+		desc: "Create embeddings, vector store, retrieval chain",
+	},
+	{
+		icon: Bot,
+		label: "Build Chatbot",
+		desc: "Integrate RAG into a conversational interface",
+	},
+	{
+		icon: Send,
+		label: "Deploy & Submit",
+		desc: "Deploy your chatbot and submit the URL",
+	},
+	{
+		icon: ClipboardCheck,
+		label: "Evaluation",
+		desc: "Theme evaluator tests and scores your work",
+	},
+];
+
+const timelineSteps = [
+	{ icon: FileText, label: "Round 1 Quiz", desc: "Qualification quiz" },
+	{ icon: Trophy, label: "Top 25 Announced", desc: "Qualifiers advance" },
+	{ icon: Zap, label: "Round 2 Begins", desc: "Challenge kickoff" },
+	{ icon: Clock, label: "4-Hour Build", desc: "Build RAG chatbot" },
+	{ icon: Send, label: "Submission Deadline", desc: "Submit chatbot URL" },
+	{ icon: ClipboardCheck, label: "Evaluation Period", desc: "Theme evaluators test" },
+	{ icon: Star, label: "Results Published", desc: "Final scores & winners" },
+];
+---
+
+<Layout
+  title="How It Works — AI Odyssey presents: The LLM Design Workshop"
+  description="Everything you need to know about AI Odyssey presents: The LLM Design Workshop — from qualification to final results."
+>
+  <div class="pt-8 pb-16 md:pb-24">
+    <PageHeader
+      title="How It Works"
+      description="Everything you need to know about the Day 4 RAG Hackathon — from qualification to final results."
+    />
+
+    <!-- Competition Overview -->
+    <section class="py-16 md:py-24 site-container">
+      <SectionHeader title="The Competition" description="Two rounds separate the best from the rest." />
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 max-w-4xl mx-auto">
+        <!-- Round 1 Card -->
+        <div class="p-8 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/10 dark:border-neutral-700" data-aos="fade-up-sm" data-aos-once="true">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="p-3 bg-accent/15 rounded-lg">
+              <Trophy class="w-6 h-6 text-accent" />
+            </div>
+            <Badge variant="accent">Round 1</Badge>
+          </div>
+          <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-2">Qualification Quiz</h3>
+          <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed mb-4">
+            All participants take a quiz. The top-performing teams qualify for Round 2.
+          </p>
+          <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
+            <li class="flex items-center gap-2"><CheckCircle class="w-4 h-4 text-emerald-500 flex-shrink-0" /> Open to all teams</li>
+            <li class="flex items-center gap-2"><CheckCircle class="w-4 h-4 text-emerald-500 flex-shrink-0" /> Knowledge-based assessment</li>
+            <li class="flex items-center gap-2"><CheckCircle class="w-4 h-4 text-emerald-500 flex-shrink-0" /> Top 25 teams advance</li>
+          </ul>
+        </div>
+
+        <!-- Round 2 Card -->
+        <div class="p-8 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/10 dark:border-neutral-700" data-aos="fade-up-sm" data-aos-once="true" data-aos-delay="100">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="p-3 bg-primary/10 rounded-lg">
+              <Hammer class="w-6 h-6 text-primary" />
+            </div>
+            <Badge variant="primary">Round 2</Badge>
+          </div>
+          <h3 class="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-2">RAG Build Challenge</h3>
+          <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed mb-4">
+            25 qualified teams choose a theme and build a RAG chatbot in 4 hours.
+          </p>
+          <ul class="space-y-2 text-sm text-neutral-600 dark:text-neutral-300">
+            <li class="flex items-center gap-2"><CheckCircle class="w-4 h-4 text-emerald-500 flex-shrink-0" /> 4 members per team</li>
+            <li class="flex items-center gap-2"><CheckCircle class="w-4 h-4 text-emerald-500 flex-shrink-0" /> Choose 1 of 5 themes</li>
+            <li class="flex items-center gap-2"><CheckCircle class="w-4 h-4 text-emerald-500 flex-shrink-0" /> 4-hour build window</li>
+            <li class="flex items-center gap-2"><CheckCircle class="w-4 h-4 text-emerald-500 flex-shrink-0" /> Deploy & submit chatbot</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>
+
+    <!-- Round 2 Details -->
+    <section class="py-16 md:py-24 site-container">
+      <SectionHeader title="Round 2 — Step by Step" description="The complete participant journey from theme selection to evaluation." />
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8 max-w-5xl mx-auto">
+        {round2Steps.map((step, i) => (
+          <div
+            class="p-6 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/10 dark:border-neutral-700 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 80}
+            data-aos-once="true"
+          >
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-3xl font-brand text-primary/20">{(i + 1).toString().padStart(2, '0')}</span>
+              <step.icon class="w-5 h-5 text-primary" />
+            </div>
+            <h4 class="text-base font-semibold text-neutral-800 dark:text-neutral-100 mb-1">{step.label}</h4>
+            <p class="text-sm text-neutral-500 dark:text-neutral-400">{step.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>
+
+    <!-- What You'll Build -->
+    <section class="py-16 md:py-24 site-container">
+      <SectionHeader title="What You'll Build" description="A Retrieval-Augmented Generation pipeline that powers an intelligent chatbot." />
+      <div class="max-w-3xl mx-auto mt-8" data-aos="fade-up-xs" data-aos-once="true">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-2 flex-wrap">
+          {[
+            { icon: FileText, label: "Dataset" },
+            { icon: Database, label: "Embeddings" },
+            { icon: Search, label: "Vector Store" },
+            { icon: Target, label: "Retrieval" },
+            { icon: Zap, label: "LLM" },
+            { icon: Bot, label: "Chatbot" },
+          ].map((item, i) => (
+            <Fragment>
+              <div class="flex flex-col items-center gap-2 p-3">
+                <div class="p-3 rounded-lg bg-primary/10 dark:bg-primary/20 border border-primary/15 dark:border-primary/25">
+                  <item.icon class="w-5 h-5 text-primary" />
+                </div>
+                <span class="text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">{item.label}</span>
+              </div>
+              {i < 5 && (
+                <ArrowRight class="w-4 h-4 text-primary/30 hidden sm:block flex-shrink-0" />
+              )}
+            </Fragment>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>
+
+    <!-- Evaluation -->
+    <section class="py-16 md:py-24 site-container">
+      <SectionHeader title="Evaluation" description="Each theme has a dedicated evaluator who tests and scores your chatbot." />
+      <div class="max-w-2xl mx-auto mt-8">
+        <div class="p-8 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/10 dark:border-neutral-700" data-aos="fade-up-xs" data-aos-once="true">
+          <div class="flex items-center gap-3 mb-6">
+            <ClipboardCheck class="w-6 h-6 text-primary" />
+            <h3 class="text-lg font-semibold text-neutral-800 dark:text-neutral-100">Evaluation Criteria</h3>
+          </div>
+          <div class="space-y-4">
+            {[1, 2, 3].map((num) => (
+              <div class="flex items-center justify-between p-4 rounded-lg border border-dashed border-primary/15 dark:border-neutral-700 bg-primary/5 dark:bg-primary/5">
+                <div>
+                  <span class="text-sm font-semibold text-neutral-800 dark:text-neutral-100">Criterion {num}</span>
+                  <span class="text-sm text-neutral-400 dark:text-neutral-500 ml-2">— Coming Soon</span>
+                </div>
+                <span class="text-sm text-neutral-400 font-mono">__/__</span>
+              </div>
+            ))}
+            <div class="flex items-center justify-between p-4 rounded-lg border border-primary/20 dark:border-primary/30 bg-primary/10 dark:bg-primary/10">
+              <span class="text-sm font-semibold text-primary">Overall Score — Coming Soon</span>
+              <span class="text-sm text-primary font-mono">__/__</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>
+
+    <!-- Timeline -->
+    <section class="py-16 md:py-24 site-container">
+      <SectionHeader title="Timeline" description="The complete hackathon schedule from start to finish." />
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8 max-w-5xl mx-auto">
+        {timelineSteps.map((step, i) => (
+          <div
+            class="flex flex-col items-center p-6 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/10 dark:border-neutral-700 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+            data-aos="fade-up-sm"
+            data-aos-delay={i * 60}
+            data-aos-once="true"
+          >
+            <step.icon class="w-6 h-6 text-primary mb-3" />
+            <h4 class="text-base font-semibold text-neutral-800 dark:text-neutral-100 mb-1">{step.label}</h4>
+            <p class="text-xs text-neutral-400 dark:text-neutral-500 leading-relaxed">{step.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>
+
+    <!-- FAQ -->
+    <FAQ title="Frequently Asked Questions" items={faqItems} />
+
+    <!-- CTA -->
+    <section class="py-12 md:py-20 site-container">
+      <div class="max-w-2xl mx-auto text-center" data-aos="fade-up-xs" data-aos-once="true">
+        <h2 class="text-3xl md:text-4xl font-brand mb-4">Ready to Submit?</h2>
+        <p class="text-neutral-600 dark:text-neutral-300 mb-8 leading-relaxed">
+          Check if your team qualified and submit your deployed chatbot URL for evaluation.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <Button url="/submit" type="fill" size="lg">Submit Chatbot <Send size={18} /></Button>
+          <Button url="/themes" size="lg">View Themes</Button>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

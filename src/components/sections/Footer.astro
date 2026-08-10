@@ -1,0 +1,83 @@
+---
+import Logo from "@/components/ui/Logo.astro";
+import ToTop from "@/components/widgets/ToTop.astro";
+
+const currentYear = new Date().getFullYear();
+
+const footerLinks = {
+  competition: [
+    { name: "How It Works", url: "/how-it-works" },
+    { name: "Top 25 Teams", url: "/top-25" },
+    { name: "Themes", url: "/themes" },
+    { name: "Results", url: "/results" },
+  ],
+  participants: [
+    { name: "Submit Chatbot", url: "/submit" },
+  ],
+};
+---
+
+<section class="text-gray-700 border-t mt-20 md:mt-48 border-dashed border-primary/15 dark:border-primary-dark/15 border-[.75px]">
+  <div class="container mx-auto px-7 max-w-7xl py-12 md:py-16">
+    <!-- Top: Logo + Description -->
+    <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-8 mb-12">
+      <div class="max-w-sm">
+        <Logo />
+        <p class="mt-4 text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
+          AI Odyssey presents: The LLM Design Workshop — Day 4 RAG Hackathon. Build a working RAG-powered chatbot in 4 hours.
+        </p>
+      </div>
+
+      <!-- Links columns -->
+      <div class="grid grid-cols-2 gap-8 md:gap-16">
+        <!-- Competition -->
+        <div>
+          <h4 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-4">Competition</h4>
+          <ul class="space-y-3">
+            {footerLinks.competition.map((link) => (
+              <li>
+                <a href={link.url} class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-primary-light transition-colors duration-200">
+                  {link.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Participants -->
+        <div>
+          <h4 class="text-sm font-semibold text-neutral-800 dark:text-neutral-200 mb-4">Participants</h4>
+          <ul class="space-y-3">
+            {footerLinks.participants.map((link) => (
+              <li>
+                <a href={link.url} class="text-sm text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-primary-light transition-colors duration-200">
+                  {link.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="border-t border-dashed border-primary/10 dark:border-primary-dark/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-neutral-400 dark:text-neutral-500">
+        © {currentYear} AI Odyssey presents: The LLM Design Workshop
+      </p>
+
+      <div class="flex items-center gap-4">
+        <span class="inline-flex items-center gap-2 text-xs text-neutral-400 dark:text-neutral-500">
+          <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-dashed border-primary/30 text-primary/80">
+            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+            Day 4
+          </span>
+          <span>RAG Challenge</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Back to top -->
+<ToTop />

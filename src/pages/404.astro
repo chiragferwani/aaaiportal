@@ -1,0 +1,40 @@
+---
+import AnimatedText from "@/components/ui/AnimatedText.astro";
+import Button from "@/components/ui/Button.astro";
+import Layout from "@/layouts/Layout.astro";
+import { ArrowLeft, Home } from "@lucide/astro";
+---
+
+<Layout
+  title="Page Not Found — RAG Hackathon"
+  description="The page you're looking for doesn't exist."
+>
+  <div class="site-container min-h-[60vh] flex items-center justify-center py-16 md:py-24">
+    <div class="text-center max-w-lg mx-auto">
+      <!-- 404 Number -->
+      <div class="mb-6" data-aos="fade-up-xs" data-aos-once="true">
+        <span class="text-8xl md:text-9xl font-brand text-primary/20 dark:text-primary/15 leading-none select-none">404</span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-3xl md:text-4xl font-brand mb-4" data-aos="fade-up-xs" data-aos-once="true" data-aos-delay="100">
+        <AnimatedText content="Page Not Found" delay={0.1} stagger={0.08} />
+      </h1>
+
+      <!-- Description -->
+      <p class="text-neutral-600 dark:text-neutral-300 mb-8 leading-relaxed" data-aos="fade-up-xs" data-aos-once="true" data-aos-delay="200">
+        Looks like this page got lost in the vector space. Let's get you back on track.
+      </p>
+
+      <!-- Buttons -->
+      <div class="flex flex-wrap justify-center gap-3" data-aos="fade-up-xs" data-aos-once="true" data-aos-delay="300">
+        <Button url="/" type="fill">
+          <Home size={16} /> Back to Home
+        </Button>
+        <Button url="/submit" type="solid">
+          Submit Chatbot <ArrowLeft size={16} />
+        </Button>
+      </div>
+    </div>
+  </div>
+</Layout>

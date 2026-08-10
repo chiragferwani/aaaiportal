@@ -1,0 +1,26 @@
+[
+	{
+		"name": "Home",
+		"url": "/"
+	},
+	{
+		"name": "How It Works",
+		"url": "/how-it-works"
+	},
+	{
+		"name": "Top 25",
+		"url": "/top-25"
+	},
+	{
+		"name": "Themes",
+		"url": "/themes"
+	},
+	{
+		"name": "Submit Chatbot",
+		"url": "/submit"
+	},
+	{
+		"name": "Results",
+		"url": "/results"
+	}
+]
