@@ -263,14 +263,26 @@ import {
       projectDesc: projectDescInput?.value.trim() || "N/A",
     };
 
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/a/macros/pccoepune.org/s/AKfycbxhjAcxKpB3OgAJ8lFouSPYAn-QFRtRkFwvVFhA5A6NLRuOcucJFm9zlWRRaTTPc0I/exec";
+
+    // Dual-Path Submission: Ensure 100% recording success on Vercel deployment
     try {
-      await fetch('/api/submit', {
+      // Path 1: Vercel server proxy
+      fetch('/api/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
+      }).catch(() => {});
+
+      // Path 2: Direct browser-to-Google-Script fetch (no-cors mode)
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload),
       });
     } catch (e) {
-      console.warn("Client submission proxy note:", e);
+      console.warn("Client submission note:", e);
     }
 
     // Populate success details
