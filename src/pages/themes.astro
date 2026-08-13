@@ -7,39 +7,95 @@ import Layout from "@/layouts/Layout.astro";
 import {
 	ArrowRight,
 	BarChart,
-	Brain,
-	CheckCircle,
+	CheckCircle2,
 	Database,
-	FileText,
-	Globe,
-	Lock,
+	ExternalLink,
+	HeartPulse,
 	Search,
+	ShieldCheck,
+	Sprout,
+	Zap,
 } from "@lucide/astro";
 
 const themes = [
-	{ num: "01", icon: FileText },
-	{ num: "02", icon: Database },
-	{ num: "03", icon: Globe },
-	{ num: "04", icon: Brain },
-	{ num: "05", icon: BarChart },
+	{
+		num: "01",
+		name: "Agriculture",
+		title: "Agriculture & Smart Farming",
+		icon: Sprout,
+		datasetUrl: "https://drive.google.com/drive/folders/1qXGa-AxFExQ-eAefM8g8BK2FDZ9lX1YX?usp=sharing",
+		description: "Crop management, soil health analytics, precision farming protocols, weather impact, and sustainable agricultural yield datasets for RAG integration.",
+		difficulty: "Medium",
+		evaluator: "Evaluator 01",
+		status: "Available",
+		badgeVariant: "success" as const,
+	},
+	{
+		num: "02",
+		name: "Defence",
+		title: "Defence & Security Intelligence",
+		icon: ShieldCheck,
+		datasetUrl: "https://drive.google.com/drive/folders/15e55ab8Aw9ONGpww1_DagAfBaGccTshH?usp=drive_link",
+		description: "Defense strategy documentations, tactical security protocols, military technology standards, and threat analysis knowledge bases.",
+		difficulty: "Hard",
+		evaluator: "Evaluator 02",
+		status: "Available",
+		badgeVariant: "primary" as const,
+	},
+	{
+		num: "03",
+		name: "Energy",
+		title: "Energy & Clean Sustainability",
+		icon: Zap,
+		datasetUrl: "https://drive.google.com/drive/folders/1C_ImoGJ5GwMywDVXw7womK5M_VlNo8dT?usp=drive_link",
+		description: "Renewable energy systems, power grid optimization, carbon footprint analytics, smart meter metrics, and sustainability guidelines.",
+		difficulty: "Medium",
+		evaluator: "Evaluator 03",
+		status: "Available",
+		badgeVariant: "accent" as const,
+	},
+	{
+		num: "04",
+		name: "Finance",
+		title: "Finance & Economic Analytics",
+		icon: BarChart,
+		datasetUrl: "https://drive.google.com/drive/folders/1bKXK9FnodYBYXXfi_uQF0PWPI36cZzS9?usp=drive_link",
+		description: "Financial market reports, banking compliance regulations, corporate performance data, investment models, and risk evaluation datasets.",
+		difficulty: "Hard",
+		evaluator: "Evaluator 04",
+		status: "Available",
+		badgeVariant: "primary" as const,
+	},
+	{
+		num: "05",
+		name: "Healthcare",
+		title: "Healthcare & Medical Intelligence",
+		icon: HeartPulse,
+		datasetUrl: "https://drive.google.com/drive/folders/1BCjl5Lx61W85gBl9XciM5Tfetuq421aP?usp=drive_link",
+		description: "Clinical guidelines, medical research papers, diagnostic protocols, patient care frameworks, and health statistics datasets.",
+		difficulty: "Medium",
+		evaluator: "Evaluator 05",
+		status: "Available",
+		badgeVariant: "success" as const,
+	},
 ];
 
 const selectionSteps = [
-	{ num: "1", label: "Browse", desc: "Explore all five themes" },
-	{ num: "2", label: "Select", desc: "Pick one that fits your team" },
-	{ num: "3", label: "Confirm", desc: "Lock in your selection" },
-	{ num: "4", label: "Receive", desc: "Get your theme dataset" },
+	{ num: "1", label: "Browse", desc: "Explore all five domain themes" },
+	{ num: "2", label: "Select", desc: "Pick the dataset matching your strategy" },
+	{ num: "3", label: "Confirm", desc: "Lock in your team theme selection" },
+	{ num: "4", label: "Build", desc: "Build & evaluate your RAG chatbot" },
 ];
 ---
 
 <Layout
   title="Choose Your Theme — RAG Hackathon"
-  description="Each team selects one of five themes. Your theme determines your dataset and evaluation."
+  description="Each team selects one of five domain themes: Agriculture, Defence, Energy, Finance, or Healthcare. Access official theme datasets."
 >
   <div class="pt-8 pb-16 md:pb-24">
     <PageHeader
       title="Choose Your Theme"
-      description="Each team selects one of five themes. Your theme determines your dataset and evaluation."
+      description="Select your domain track. Access official datasets and build your RAG chatbot."
     />
 
     <!-- Theme Cards -->
@@ -47,83 +103,97 @@ const selectionSteps = [
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
         {themes.map((theme, i) => (
           <div
-            class="relative p-8 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border-2 border-dashed border-primary/15 dark:border-neutral-700 hover:shadow-md hover:-translate-y-1 transition-all duration-300 group"
+            class="relative p-8 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-neutral-200 dark:border-neutral-800 hover:border-primary/40 dark:hover:border-primary/40 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between"
             data-aos="fade-up-sm"
             data-aos-delay={i * 80}
             data-aos-once="true"
           >
-            <!-- Theme Number Badge -->
-            <div class="flex items-center justify-between mb-6">
-              <Badge variant="primary">THEME {theme.num}</Badge>
-              <div class="p-2 rounded-lg bg-primary/10 dark:bg-primary/20 opacity-50 group-hover:opacity-100 transition-opacity">
-                <theme.icon class="w-5 h-5 text-primary" />
+            <div>
+              <!-- Theme Number Badge & Icon -->
+              <div class="flex items-center justify-between mb-6">
+                <Badge variant={theme.badgeVariant}>THEME {theme.num} — {theme.name.toUpperCase()}</Badge>
+                <div class="p-2.5 rounded-xl bg-primary/10 dark:bg-primary/20 group-hover:scale-110 transition-transform">
+                  <theme.icon class="w-5 h-5 text-primary" />
+                </div>
               </div>
+
+              <!-- Title -->
+              <h3 class="text-xl font-bold mb-3 text-neutral-900 dark:text-neutral-100 group-hover:text-primary transition-colors">
+                {theme.title}
+              </h3>
+
+              <!-- Description -->
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6">
+                {theme.description}
+              </p>
             </div>
 
-            <!-- Title -->
-            <h3 class="text-2xl font-brand mb-3 text-neutral-800 dark:text-neutral-100">Coming Soon</h3>
-
-            <!-- Description -->
-            <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed mb-6">
-              Theme details will be announced soon. Check back for the full theme description and requirements.
-            </p>
-
-            <!-- Details -->
-            <div class="space-y-3 pt-4 border-t border-dashed border-primary/10 dark:border-neutral-700">
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">Dataset</span>
-                <span class="text-xs text-neutral-500 dark:text-neutral-400 font-medium">Coming Soon</span>
+            <div>
+              <!-- Details -->
+              <div class="space-y-3 pt-4 border-t border-dashed border-neutral-200 dark:border-neutral-800">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-neutral-500 dark:text-neutral-500 uppercase tracking-wider">Dataset Status</span>
+                  <span class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                    <CheckCircle2 size={12} /> {theme.status}
+                  </span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-neutral-500 dark:text-neutral-500 uppercase tracking-wider">Difficulty</span>
+                  <span class="text-xs text-neutral-700 dark:text-neutral-300 font-medium">{theme.difficulty}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-neutral-500 dark:text-neutral-500 uppercase tracking-wider">Evaluator</span>
+                  <span class="text-xs text-neutral-700 dark:text-neutral-300 font-medium">{theme.evaluator}</span>
+                </div>
               </div>
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">Difficulty</span>
-                <span class="text-xs text-neutral-500 dark:text-neutral-400 font-medium">Coming Soon</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-neutral-400 dark:text-neutral-500 uppercase tracking-wider">Evaluator</span>
-                <span class="text-xs text-neutral-500 dark:text-neutral-400 font-medium">Coming Soon</span>
-              </div>
-            </div>
 
-            <!-- View Dataset Button (Coming Soon state) -->
-            <div class="mt-6">
-              <Button url="javascript:void(0)" type="disabled" size="sm" className="w-full justify-center max-w-full">
-                <Database size={14} /> View Dataset
-              </Button>
+              <!-- View Dataset Button -->
+              <div class="mt-6">
+                <Button
+                  url={theme.datasetUrl}
+                  type="fill"
+                  size="sm"
+                  target="_blank"
+                  className="w-full justify-center max-w-full group/btn"
+                >
+                  <Database size={14} /> View Dataset <ExternalLink size={13} class="ml-1 opacity-70 group-hover/btn:translate-x-0.5 transition-transform" />
+                </Button>
+              </div>
             </div>
           </div>
         ))}
 
         <!-- 6th card: Info card -->
         <div
-          class="p-8 rounded-xl bg-primary/5 dark:bg-primary/10 border border-primary/15 dark:border-primary/20 flex flex-col justify-center"
+          class="p-8 rounded-xl bg-primary/5 dark:bg-primary/10 border border-primary/20 dark:border-primary/30 flex flex-col justify-center"
           data-aos="fade-up-sm"
           data-aos-delay={5 * 80}
           data-aos-once="true"
         >
           <Search class="w-8 h-8 text-primary mb-4" />
-          <h4 class="text-lg font-semibold text-neutral-800 dark:text-neutral-100 mb-2">One Theme Only</h4>
-          <p class="text-sm text-neutral-500 dark:text-neutral-400 leading-relaxed">
-            Each team can select exactly <strong class="text-primary">one theme</strong>. Selection is final — once confirmed, your team receives the theme-specific dataset.
+          <h4 class="text-lg font-bold text-neutral-900 dark:text-neutral-100 mb-2">One Theme Selection</h4>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed">
+            Each team can select exactly <strong class="text-primary font-semibold">one domain theme</strong>. Your chatbot must retrieve and generate responses exclusively using your chosen dataset.
           </p>
         </div>
       </div>
     </section>
 
-    <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>
+    <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-800 my-4 site-container"></div>
 
     <!-- How Selection Works -->
     <section class="py-16 md:py-24 site-container">
-      <SectionHeader title="How Theme Selection Works" description="A simple four-step process from browsing to building." />
+      <SectionHeader title="How Theme Selection Works" description="A simple four-step process from browsing dataset links to building your chatbot." />
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8 max-w-4xl mx-auto">
         {selectionSteps.map((step, i) => (
           <div
-            class="flex flex-col items-center text-center gap-3 p-6 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/10 dark:border-neutral-700"
+            class="flex flex-col items-center text-center gap-3 p-6 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-neutral-200 dark:border-neutral-800"
             data-aos="fade-up-sm"
             data-aos-delay={i * 100}
             data-aos-once="true"
           >
             <span class="text-3xl font-brand text-primary">{step.num}</span>
-            <span class="text-sm font-semibold text-neutral-800 dark:text-neutral-100 uppercase tracking-wide">{step.label}</span>
+            <span class="text-sm font-semibold text-neutral-900 dark:text-neutral-100 uppercase tracking-wide">{step.label}</span>
             <span class="text-xs text-neutral-500 dark:text-neutral-400">{step.desc}</span>
           </div>
         ))}
@@ -132,14 +202,15 @@ const selectionSteps = [
 
     <!-- CTA -->
     <section class="py-12 md:py-16 site-container">
-      <div class="max-w-2xl mx-auto text-center rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/10 dark:border-neutral-700 p-8 md:p-12" data-aos="fade-up-xs" data-aos-once="true">
-        <Badge variant="primary" size="lg">Themes Coming Soon</Badge>
-        <h2 class="text-2xl md:text-3xl font-brand mt-4 mb-4">Stay Tuned</h2>
+      <div class="max-w-2xl mx-auto text-center rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-neutral-200 dark:border-neutral-800 p-8 md:p-12" data-aos="fade-up-xs" data-aos-once="true">
+        <Badge variant="success" size="lg">Datasets Unlocked</Badge>
+        <h2 class="text-2xl md:text-3xl font-brand mt-4 mb-4">Ready to Submit Your Chatbot?</h2>
         <p class="text-neutral-600 dark:text-neutral-300 mb-8 leading-relaxed">
-          Themes will be announced soon. In the meantime, learn how the competition works.
+          Once your RAG pipeline is built using your chosen theme dataset, deploy it and submit the URL.
         </p>
-        <div class="flex justify-center">
-          <Button url="/how-it-works" type="fill">How It Works <ArrowRight size={16} /></Button>
+        <div class="flex justify-center gap-4">
+          <Button url="/submit" type="fill">Submit Chatbot <ArrowRight size={16} /></Button>
+          <Button url="/how-it-works" type="outline">How It Works</Button>
         </div>
       </div>
     </section>

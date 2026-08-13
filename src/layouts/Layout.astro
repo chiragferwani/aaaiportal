@@ -31,16 +31,24 @@ import "../styles/article-enhancements.css";
     <!-- Used to add dark mode right away, adding here prevents any flicker -->
     <script is:inline>
       if (typeof Storage !== 'undefined') {
-        if (
-          localStorage.getItem('dark_mode') &&
-          localStorage.getItem('dark_mode') == 'true'
-        ) {
-          document.documentElement.classList.add('dark')
+        const mode = localStorage.getItem('dark_mode');
+        if (mode === 'false') {
+          document.documentElement.classList.remove('dark');
+        } else {
+          document.documentElement.classList.add('dark');
         }
+      } else {
+        document.documentElement.classList.add('dark');
       }
+
+      // Disable right click across the entire web app
+      document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+      });
     </script>
 
-    <link rel="icon" type="image/x-icon" href="/favicon.png" />
+    <link rel="icon" type="image/png" href="/aaai.png" />
+    <link rel="apple-touch-icon" href="/aaai.png" />
   </head>
   <body class="antialiased bg-bg-primary dark:bg-bg-primary-dark max-w-full overflow-x-hidden">
     <TopBg />

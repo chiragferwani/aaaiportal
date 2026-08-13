@@ -1,0 +1,169 @@
+---
+---
+
+<div class="animated-bg-container pointer-events-none fixed inset-0 z-[-1] overflow-hidden">
+  <!-- Glowing gradient orbs with smooth keyframe movement -->
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+  <div class="glow-orb orb-3"></div>
+
+  <!-- Animated Interactive Canvas Particles & Neural Connections -->
+  <canvas id="heroBgCanvas" class="w-full h-full opacity-40 dark:opacity-60"></canvas>
+</div>
+
+<style>
+  .animated-bg-container {
+    mask-image: radial-gradient(ellipse 85% 85% at 50% 30%, #000 65%, transparent 100%);
+  }
+
+  .glow-orb {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(100px);
+    opacity: 0.25;
+    mix-blend-mode: screen;
+    will-change: transform;
+  }
+
+  :global(.dark) .glow-orb {
+    opacity: 0.35;
+  }
+
+  .orb-1 {
+    top: -10%;
+    left: 20%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #3b82f6 0%, #1d4ed8 70%, transparent 100%);
+    animation: floatOrb1 18s ease-in-out infinite alternate;
+  }
+
+  .orb-2 {
+    top: 30%;
+    right: 10%;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, #60a5fa 0%, #2563eb 70%, transparent 100%);
+    animation: floatOrb2 22s ease-in-out infinite alternate;
+  }
+
+  .orb-3 {
+    bottom: 10%;
+    left: 15%;
+    width: 550px;
+    height: 550px;
+    background: radial-gradient(circle, #818cf8 0%, #3b82f6 70%, transparent 100%);
+    animation: floatOrb3 25s ease-in-out infinite alternate;
+  }
+
+  @keyframes floatOrb1 {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(120px, 80px) scale(1.15); }
+    100% { transform: translate(-60px, 140px) scale(0.95); }
+  }
+
+  @keyframes floatOrb2 {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-100px, 120px) scale(1.1); }
+    100% { transform: translate(80px, -60px) scale(0.9); }
+  }
+
+  @keyframes floatOrb3 {
+    0% { transform: translate(0, 0) scale(0.95); }
+    50% { transform: translate(90px, -110px) scale(1.12); }
+    100% { transform: translate(-70px, -40px) scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glow-orb {
+      animation: none !important;
+    }
+  }
+</style>
+
+<script>
+  function initBgCanvas() {
+    const canvas = document.getElementById('heroBgCanvas') as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    window.addEventListener('resize', () => {
+      if (!canvas) return;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+      alpha: number;
+    }> = [];
+
+    const numParticles = Math.min(Math.floor((width * height) / 18000), 65);
+
+    for (let i = 0; i < numParticles; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        radius: Math.random() * 2 + 1,
+        alpha: Math.random() * 0.5 + 0.2,
+      });
+    }
+
+    function animate() {
+      if (!ctx) return;
+      ctx.clearRect(0, 0, width, height);
+
+      const isDark = document.documentElement.classList.contains('dark');
+      const colorRgb = isDark ? '96, 165, 250' : '59, 130, 246';
+
+      for (let i = 0; i < particles.length; i++) {
+        const p1 = particles[i];
+        p1.x += p1.vx;
+        p1.y += p1.vy;
+
+        if (p1.x < 0) p1.x = width;
+        if (p1.x > width) p1.x = 0;
+        if (p1.y < 0) p1.y = height;
+        if (p1.y > height) p1.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p1.x, p1.y, p1.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${colorRgb}, ${p1.alpha})`;
+        ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 130) {
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            const lineAlpha = (1 - dist / 130) * 0.25;
+            ctx.strokeStyle = `rgba(${colorRgb}, ${lineAlpha})`;
+            ctx.lineWidth = 0.75;
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  }
+
+  initBgCanvas();
+</script>

@@ -60,6 +60,7 @@
 		"@astrojs/mdx": "^6.0.1",
 		"@astrojs/rss": "^4.0.18",
 		"@astrojs/sitemap": "^3.7.3",
+		"@astrojs/vercel": "^11.0.5",
 		"@lucide/astro": "^1.17.0",
 		"@tailwindcss/vite": "^4.1.14",
 		"aos": "^2.3.4",

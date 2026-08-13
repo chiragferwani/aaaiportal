@@ -1,60 +1,65 @@
 ---
-import { ShieldCheck, UserCheck, Award, Brain, Bot } from "@lucide/astro";
+import { Sprout, ShieldCheck, Zap, BarChart3, HeartPulse, ExternalLink } from "@lucide/astro";
 
 const evaluatorThemes = [
   {
     id: 1,
     evaluator: "Evaluator 01",
-    theme: "Theme 01",
-    status: "Coming Soon",
-    icon: ShieldCheck,
-    bgGradient: "from-sky-400 to-blue-600",
-    textColor: "text-white",
-    subColor: "text-sky-100",
-  },
-  {
-    id: 2,
-    evaluator: "Evaluator 02",
-    theme: "Theme 02",
-    status: "Coming Soon",
-    icon: Brain,
-    bgGradient: "from-emerald-400 to-teal-600",
+    theme: "Agriculture",
+    status: "Dataset Live",
+    datasetUrl: "https://drive.google.com/drive/folders/1qXGa-AxFExQ-eAefM8g8BK2FDZ9lX1YX?usp=sharing",
+    icon: Sprout,
+    bgGradient: "from-emerald-500 to-teal-700",
     textColor: "text-white",
     subColor: "text-emerald-100",
   },
   {
-    id: 3,
-    evaluator: "Evaluator 03",
-    theme: "Theme 03",
-    status: "Coming Soon",
-    icon: UserCheck,
-    bgGradient: "from-blue-600 to-indigo-700", // Center featured card
+    id: 2,
+    evaluator: "Evaluator 02",
+    theme: "Defence",
+    status: "Dataset Live",
+    datasetUrl: "https://drive.google.com/drive/folders/15e55ab8Aw9ONGpww1_DagAfBaGccTshH?usp=drive_link",
+    icon: ShieldCheck,
+    bgGradient: "from-blue-600 to-indigo-800",
     textColor: "text-white",
     subColor: "text-blue-100",
   },
   {
+    id: 3,
+    evaluator: "Evaluator 03",
+    theme: "Energy",
+    status: "Dataset Live",
+    datasetUrl: "https://drive.google.com/drive/folders/1C_ImoGJ5GwMywDVXw7womK5M_VlNo8dT?usp=drive_link",
+    icon: Zap,
+    bgGradient: "from-amber-500 to-yellow-700", // Center featured card
+    textColor: "text-white",
+    subColor: "text-amber-100",
+  },
+  {
     id: 4,
     evaluator: "Evaluator 04",
-    theme: "Theme 04",
-    status: "Coming Soon",
-    icon: Bot,
-    bgGradient: "from-slate-700 to-slate-900",
+    theme: "Finance",
+    status: "Dataset Live",
+    datasetUrl: "https://drive.google.com/drive/folders/1bKXK9FnodYBYXXfi_uQF0PWPI36cZzS9?usp=drive_link",
+    icon: BarChart3,
+    bgGradient: "from-sky-500 to-blue-700",
     textColor: "text-white",
-    subColor: "text-slate-300",
+    subColor: "text-sky-100",
   },
   {
     id: 5,
     evaluator: "Evaluator 05",
-    theme: "Theme 05",
-    status: "Coming Soon",
-    icon: Award,
-    bgGradient: "from-amber-400 to-yellow-600",
-    textColor: "text-neutral-900",
-    subColor: "text-amber-950/80",
+    theme: "Healthcare",
+    status: "Dataset Live",
+    datasetUrl: "https://drive.google.com/drive/folders/1BCjl5Lx61W85gBl9XciM5Tfetuq421aP?usp=drive_link",
+    icon: HeartPulse,
+    bgGradient: "from-rose-500 to-red-700",
+    textColor: "text-white",
+    subColor: "text-rose-100",
   },
 ];
 
-// Center card (Evaluator 03) is featured on top; others spread around it
+// Center card (Energy / Evaluator 03) is featured on top; others spread around it
 const featured = evaluatorThemes[2];
 const others = [evaluatorThemes[0], evaluatorThemes[1], evaluatorThemes[3], evaluatorThemes[4]];
 ---
@@ -62,11 +67,17 @@ const others = [evaluatorThemes[0], evaluatorThemes[1], evaluatorThemes[3], eval
 <div class="eval-stack-wrapper py-8 overflow-hidden md:overflow-visible">
   <div class="eval-stack-list">
     <!-- Featured Center Card (Evaluator 03) -->
-    <div class="eval-stack-item eval-stack-featured">
+    <a
+      href={featured.datasetUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="eval-stack-item eval-stack-featured group/card"
+      title={`Open ${featured.theme} Dataset`}
+    >
       <div class={`eval-stack-card bg-gradient-to-br ${featured.bgGradient} ${featured.textColor}`}>
         <!-- Evaluator Profile Header -->
         <div class="flex flex-col items-center gap-2 pt-4">
-          <div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/35 flex items-center justify-center shadow-inner">
+          <div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/35 flex items-center justify-center shadow-inner group-hover/card:scale-110 transition-transform">
             <featured.icon class="w-7 h-7 text-white" />
           </div>
           <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-white/20 backdrop-blur-md shadow-sm">
@@ -76,22 +87,28 @@ const others = [evaluatorThemes[0], evaluatorThemes[1], evaluatorThemes[3], eval
 
         <!-- Theme Listed at Bottom Center -->
         <div class="mt-auto w-full text-center pb-4 pt-6 border-t border-white/25">
-          <h4 class="text-base font-bold tracking-tight">{featured.theme}</h4>
+          <h4 class="text-base font-bold tracking-tight flex items-center justify-center gap-1">
+            {featured.theme} <ExternalLink size={14} class="opacity-80" />
+          </h4>
           <span class={`text-xs ${featured.subColor} font-medium block mt-0.5`}>{featured.status}</span>
         </div>
       </div>
-    </div>
+    </a>
 
     <!-- Spreading Side Cards -->
     {others.map((item, index) => (
-      <div
-        class="eval-stack-item eval-stack-other"
+      <a
+        href={item.datasetUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="eval-stack-item eval-stack-other group/card"
         style={`--i: ${index + 1}; --total: 5; --spread: ${[1.15, 1.45, 1.45, 1.15][index]};`}
+        title={`Open ${item.theme} Dataset`}
       >
         <div class={`eval-stack-card bg-gradient-to-br ${item.bgGradient} ${item.textColor}`}>
           <!-- Evaluator Profile Header -->
           <div class="flex flex-col items-center gap-2 pt-4">
-            <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/35 flex items-center justify-center shadow-inner">
+            <div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/35 flex items-center justify-center shadow-inner group-hover/card:scale-110 transition-transform">
               <item.icon class="w-6 h-6" />
             </div>
             <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md shadow-sm">
@@ -101,11 +118,13 @@ const others = [evaluatorThemes[0], evaluatorThemes[1], evaluatorThemes[3], eval
 
           <!-- Theme Listed at Bottom Center -->
           <div class="mt-auto w-full text-center pb-4 pt-4 border-t border-white/25">
-            <h4 class="text-sm font-bold tracking-tight">{item.theme}</h4>
+            <h4 class="text-sm font-bold tracking-tight flex items-center justify-center gap-1">
+              {item.theme} <ExternalLink size={12} class="opacity-80" />
+            </h4>
             <span class={`text-[11px] ${item.subColor} font-medium block mt-0.5`}>{item.status}</span>
           </div>
         </div>
-      </div>
+      </a>
     ))}
   </div>
 </div>
@@ -134,6 +153,7 @@ const others = [evaluatorThemes[0], evaluatorThemes[1], evaluatorThemes[3], eval
     height: 295px;
     border-radius: 22px;
     cursor: pointer;
+    text-decoration: none;
     transition: transform 0.5s cubic-bezier(0.34, 1.2, 0.64, 1),
                 box-shadow 0.35s ease;
   }

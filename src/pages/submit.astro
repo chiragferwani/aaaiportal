@@ -29,28 +29,43 @@ import {
     <div class="site-container max-w-3xl">
       <!-- Submission Form Card -->
       <div id="form-container" class="rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/10 dark:border-neutral-700 p-6 md:p-10 mb-8" data-aos="fade-up-xs" data-aos-once="true">
-        <form id="submission-form" class="space-y-6" onsubmit="return false;">
-
-          <!-- Read-only Team Name -->
+        <form id="submission-form" class="space-y-6" onsubmit="return false;">          <!-- Editable Team Name -->
           <div>
-            <label class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2 block">Team Name</label>
+            <label for="team-name" class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2 flex items-center justify-between">
+              <span>Team Name <span class="text-red-500">*</span></span>
+              <span class="text-xs font-normal text-neutral-400">Your registered team name</span>
+            </label>
             <input
               type="text"
-              value="Team Alpha"
-              disabled
-              class="w-full rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 px-4 py-3 text-neutral-500 dark:text-neutral-400 cursor-not-allowed text-sm font-medium"
+              id="team-name"
+              name="teamName"
+              required
+              placeholder="e.g. Team Alpha or Neural Ninjas"
+              class="w-full rounded-lg border border-neutral-300 dark:border-neutral-600 bg-bg-primary/50 dark:bg-bg-primary-dark/50 px-4 py-3 text-neutral-800 dark:text-neutral-100 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition font-medium"
             />
+            <p id="team-name-error" class="hidden text-xs text-red-500 mt-1.5 flex items-center gap-1">
+              <AlertCircle class="w-3.5 h-3.5 inline" /> Please enter your Team Name
+            </p>
           </div>
 
-          <!-- Read-only Selected Theme -->
+          <!-- Theme Selection Dropdown -->
           <div>
-            <label class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2 block">Selected Theme</label>
-            <input
-              type="text"
-              value="Coming Soon"
-              disabled
-              class="w-full rounded-lg border border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 px-4 py-3 text-neutral-500 dark:text-neutral-400 cursor-not-allowed text-sm font-medium"
-            />
+            <label for="theme-select" class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2 flex items-center justify-between">
+              <span>Assigned Theme <span class="text-red-500">*</span></span>
+              <span class="text-xs font-normal text-neutral-400">Select your team's dataset theme</span>
+            </label>
+            <select
+              id="theme-select"
+              name="theme"
+              required
+              class="w-full rounded-lg border border-neutral-300 dark:border-neutral-600 bg-bg-primary/50 dark:bg-bg-primary-dark/50 px-4 py-3 text-neutral-800 dark:text-neutral-100 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition"
+            >
+              <option value="agriculture">Agriculture & Smart Farming</option>
+              <option value="defence">Defence & Security Intelligence</option>
+              <option value="energy">Energy & Clean Sustainability</option>
+              <option value="finance">Finance & Economic Analytics</option>
+              <option value="healthcare">Healthcare & Medical Intelligence</option>
+            </select>
           </div>
 
           <!-- Chatbot URL Input (Required) -->
@@ -133,11 +148,11 @@ import {
           </div>
           <div class="flex justify-between items-center text-xs">
             <span class="text-neutral-400">Team</span>
-            <span class="font-medium text-neutral-700 dark:text-neutral-200">Team Alpha</span>
+            <span id="submitted-team-text" class="font-medium text-neutral-700 dark:text-neutral-200">Team Alpha</span>
           </div>
           <div class="flex justify-between items-center text-xs">
             <span class="text-neutral-400">Theme</span>
-            <span class="font-medium text-neutral-700 dark:text-neutral-200">Coming Soon</span>
+            <span id="submitted-theme-text" class="font-medium text-neutral-700 dark:text-neutral-200">Agriculture & Smart Farming</span>
           </div>
           <div class="flex justify-between items-center text-xs">
             <span class="text-neutral-400">Chatbot URL</span>
@@ -189,29 +204,82 @@ import {
 </Layout>
 
 <script>
-  const submitBtn = document.getElementById('submit-btn');
+  const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement | null;
+  const teamNameInput = document.getElementById('team-name') as HTMLInputElement | null;
+  const teamNameError = document.getElementById('team-name-error');
   const urlInput = document.getElementById('chatbot-url') as HTMLInputElement | null;
+  const themeSelect = document.getElementById('theme-select') as HTMLSelectElement | null;
+  const projectNameInput = document.getElementById('project-name') as HTMLInputElement | null;
+  const projectDescInput = document.getElementById('project-desc') as HTMLTextAreaElement | null;
   const urlError = document.getElementById('url-error');
   const formContainer = document.getElementById('form-container');
   const successContainer = document.getElementById('success-container');
+  const submittedTeamText = document.getElementById('submitted-team-text');
   const submittedUrlText = document.getElementById('submitted-url-text');
   const submittedUrlLink = document.getElementById('submitted-url-link') as HTMLAnchorElement | null;
+  const submittedThemeText = document.getElementById('submitted-theme-text');
   const submissionTimestamp = document.getElementById('submission-timestamp');
 
-  submitBtn?.addEventListener('click', () => {
-    const val = urlInput?.value.trim() || '';
+  submitBtn?.addEventListener('click', async () => {
+    const teamNameVal = teamNameInput?.value.trim() || '';
+    const urlVal = urlInput?.value.trim() || '';
 
-    if (!val || (!val.startsWith('http://') && !val.startsWith('https://'))) {
-      urlError?.classList.remove('hidden');
-      urlInput?.focus();
-      return;
+    let hasError = false;
+
+    if (!teamNameVal) {
+      teamNameError?.classList.remove('hidden');
+      teamNameInput?.focus();
+      hasError = true;
+    } else {
+      teamNameError?.classList.add('hidden');
     }
 
-    urlError?.classList.add('hidden');
+    if (!urlVal || (!urlVal.startsWith('http://') && !urlVal.startsWith('https://'))) {
+      urlError?.classList.remove('hidden');
+      if (!hasError) urlInput?.focus();
+      hasError = true;
+    } else {
+      urlError?.classList.add('hidden');
+    }
+
+    if (hasError) return;
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `
+        <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        RECORDING TO SHEET...
+      `;
+    }
+
+    const payload = {
+      teamName: teamNameVal,
+      theme: themeSelect ? themeSelect.options[themeSelect.selectedIndex].text : "Agriculture & Smart Farming",
+      chatbotUrl: urlVal,
+      projectName: projectNameInput?.value.trim() || "N/A",
+      projectDesc: projectDescInput?.value.trim() || "N/A",
+    };
+
+    try {
+      await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } catch (e) {
+      console.warn("Client submission proxy note:", e);
+    }
 
     // Populate success details
-    if (submittedUrlText) submittedUrlText.textContent = val;
-    if (submittedUrlLink) submittedUrlLink.href = val;
+    if (submittedTeamText) submittedTeamText.textContent = teamNameVal;
+    if (submittedUrlText) submittedUrlText.textContent = urlVal;
+    if (submittedUrlLink) submittedUrlLink.href = urlVal;
+    if (submittedThemeText && themeSelect) {
+      submittedThemeText.textContent = themeSelect.options[themeSelect.selectedIndex].text;
+    }
     if (submissionTimestamp) {
       submissionTimestamp.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     }

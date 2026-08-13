@@ -5,6 +5,7 @@ import Badge from "@/components/ui/Badge.astro";
 import Button from "@/components/ui/Button.astro";
 import Layout from "@/layouts/Layout.astro";
 import EvaluatorThemeStack from "@/components/home/EvaluatorThemeStack.astro";
+import AnimatedBackground from "@/components/home/AnimatedBackground.astro";
 import {
   ArrowRight,
   Bot,
@@ -68,16 +69,24 @@ const round2Steps = [
 ---
 
 <Layout
-  title="AI Odyssey presents: The LLM Design Workshop — Day 4 RAG Hackathon"
+  title="AAAI Student Chapter — The LLM Design Workshop & RAG Hackathon"
   description="AI Odyssey presents: The LLM Design Workshop. 4 Hours. 5 Themes. 25 Teams. One RAG Challenge."
-  keywords="AI Odyssey, LLM Design Workshop, RAG hackathon, retrieval augmented generation, chatbot challenge"
+  keywords="AAAI, AI Odyssey, LLM Design Workshop, RAG hackathon, retrieval augmented generation, chatbot challenge"
 >
+  <!-- Interactive Animated Canvas & Ambient Background -->
+  <AnimatedBackground />
 
   <!-- Hero Section -->
-  <div class="relative site-container z-20 w-full mx-auto mt-16 px-4 md:mt-18 lg:mt-32 xl:px-0">
+  <div class="relative site-container z-20 w-full mx-auto mt-16 px-4 md:mt-18 lg:mt-28 xl:px-0">
     <div class="relative w-full px-4 flex flex-col items-center justify-between md:flex-row mb-16">
       <!-- Left: Text -->
       <div class="relative w-full md:max-w-[540px] md:w-1/2 text-center sm:text-left sm:-mt-8">
+        <!-- AAAI Club Badge -->
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 dark:bg-primary/20 border border-primary/20 backdrop-blur-md mb-6" data-aos="fade-up-xs" data-aos-once="true">
+          <img src="/aaai.png" alt="AAAI Chapter Logo" class="w-5 h-5 object-contain" />
+          <span class="text-xs font-bold text-primary tracking-wide uppercase">AAAI Student Chapter</span>
+        </div>
+
         <div class="flex flex-wrap gap-2 justify-center sm:justify-start mb-6" data-aos="fade-up-xs" data-aos-delay="100" data-aos-duration="500" data-aos-once="true">
           <Badge variant="primary">AI Odyssey presents</Badge>
           <Badge variant="accent">Day 4 — The LLM Design Workshop</Badge>
@@ -279,8 +288,9 @@ const round2Steps = [
         </div>
       ))}
     </div>
-    <div class="text-center mt-8">
-      <Badge variant="primary">Themes Coming Soon</Badge>
+    <div class="text-center mt-8 flex justify-center gap-3">
+      <Badge variant="success">5 Theme Datasets Unlocked</Badge>
+      <Button url="/themes" type="solid" size="sm">Explore All Themes & Datasets <ArrowRight size={14} /></Button>
     </div>
   </section>
 

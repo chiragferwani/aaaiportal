@@ -3,6 +3,11 @@ import AOS from "aos";
 
 window.darkMode = false;
 
+// Disable right click across the entire web app
+document.addEventListener("contextmenu", (e) => {
+	e.preventDefault();
+});
+
 const stickyClasses = [];
 const unstickyClasses = [];
 const stickyClassesContainer = [
@@ -27,13 +32,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	headerElement = document.getElementById("header");
 
 	if (
-		localStorage.getItem("dark_mode") &&
-		localStorage.getItem("dark_mode") === "true"
+		localStorage.getItem("dark_mode") === "false"
 	) {
+		window.darkMode = false;
+		showDay();
+	} else {
 		window.darkMode = true;
 		showNight();
-	} else {
-		showDay();
 	}
 	stickyHeaderFuncionality();
 	applyMenuItemClasses();
@@ -87,14 +92,14 @@ window.evaluateHeaderPosition = () => {
 	}
 };
 
-document.getElementById("darkToggle").addEventListener("click", () => {
+document.getElementById("darkToggle")?.addEventListener("click", () => {
 	document.documentElement.classList.add("duration-300");
 
 	if (document.documentElement.classList.contains("dark")) {
-		localStorage.removeItem("dark_mode");
+		localStorage.setItem("dark_mode", "false");
 		showDay(true);
 	} else {
-		localStorage.setItem("dark_mode", true);
+		localStorage.setItem("dark_mode", "true");
 		showNight(true);
 	}
 });
