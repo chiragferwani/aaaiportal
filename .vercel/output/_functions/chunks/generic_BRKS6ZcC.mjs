@@ -1,4 +1,4 @@
-import { t as typeHandlers, a as types, A as AstroError, N as NoImageMetadata, i as isRemoteAllowed, F as FailedToFetchRemoteImageDimensions, R as RemoteImageNotAllowed, I as InvalidComponentArgs, r as removeQueryString, j as joinPaths, E as ExpectedImage, b as isRemotePath, L as LocalImageUsedWrongly, M as MissingImageDimension, U as UnsupportedImageFormat, c as IncompatibleDescriptorOptions, d as UnsupportedImageConversion, e as InvalidImageService, f as ExpectedImageOptions, g as ExpectedNotESMImage, h as ImageMissingAlt, m as maybeRenderHead, k as addAttribute, s as spreadAttributes, l as renderTemplate, n as FontFamilyNotFound, u as unescapeHTML, o as MissingGetFontFileRequestUrl } from './entrypoint_CavOAxvb.mjs';
+import { t as typeHandlers, a as types, A as AstroError, N as NoImageMetadata, i as isRemoteAllowed, F as FailedToFetchRemoteImageDimensions, R as RemoteImageNotAllowed, I as InvalidComponentArgs, r as removeQueryString, j as joinPaths, E as ExpectedImage, b as isRemotePath, L as LocalImageUsedWrongly, M as MissingImageDimension, U as UnsupportedImageFormat, c as IncompatibleDescriptorOptions, d as UnsupportedImageConversion, e as InvalidImageService, f as ExpectedImageOptions, g as ExpectedNotESMImage, h as ImageMissingAlt, m as maybeRenderHead, k as addAttribute, s as spreadAttributes, l as renderTemplate, n as FontFamilyNotFound, u as unescapeHTML, o as MissingGetFontFileRequestUrl } from './entrypoint_D3GYc__i.mjs';
 
 function isESMImportedImage(src) {
   return typeof src === "object" || typeof src === "function" && "src" in src;
@@ -647,7 +647,7 @@ async function getConfiguredImageService() {
   if (!globalThis?.astroAsset?.imageService) {
     const { default: service } = await import(
       // @ts-expect-error
-      './sharp_Dedz5fgV.mjs'
+      './sharp_DrfPeLNZ.mjs'
     ).catch((e) => {
       const error = new AstroError(InvalidImageService);
       error.cause = e;

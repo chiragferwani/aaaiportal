@@ -29,6 +29,12 @@ import {
     <div class="site-container max-w-3xl">
       <!-- Submission Form Card -->
       <div id="form-container" class="rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/10 dark:border-neutral-700 p-6 md:p-10 mb-8" data-aos="fade-up-xs" data-aos-once="true">
+        <!-- Submissions Disabled Banner (Hidden by default) -->
+        <div id="submissions-closed-banner" class="hidden mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-sm font-semibold flex items-center gap-2">
+          <ShieldAlert class="w-5 h-5 flex-shrink-0" />
+          <span>Submissions are currently closed by the organizers.</span>
+        </div>
+
         <form id="submission-form" class="space-y-6" onsubmit="return false;">          <!-- Editable Team Name -->
           <div>
             <label for="team-name" class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2 flex items-center justify-between">
@@ -219,6 +225,27 @@ import {
   const submittedUrlLink = document.getElementById('submitted-url-link') as HTMLAnchorElement | null;
   const submittedThemeText = document.getElementById('submitted-theme-text');
   const submissionTimestamp = document.getElementById('submission-timestamp');
+  const closedBanner = document.getElementById('submissions-closed-banner');
+
+  function checkSubmissionsState() {
+    const isSubmissionsDisabled = localStorage.getItem('aaai_submissions_enabled') === 'false';
+
+    if (isSubmissionsDisabled) {
+      closedBanner?.classList.remove('hidden');
+      if (teamNameInput) teamNameInput.disabled = true;
+      if (themeSelect) themeSelect.disabled = true;
+      if (urlInput) urlInput.disabled = true;
+      if (projectNameInput) projectNameInput.disabled = true;
+      if (projectDescInput) projectDescInput.disabled = true;
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'SUBMISSIONS CLOSED';
+        submitBtn.classList.add('opacity-50', 'cursor-not-allowed', 'pointer-events-none');
+      }
+    }
+  }
+
+  checkSubmissionsState();
 
   submitBtn?.addEventListener('click', async () => {
     const teamNameVal = teamNameInput?.value.trim() || '';

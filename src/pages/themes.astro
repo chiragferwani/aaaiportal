@@ -149,15 +149,17 @@ const selectionSteps = [
 
               <!-- View Dataset Button -->
               <div class="mt-6">
-                <Button
-                  url={theme.datasetUrl}
-                  type="fill"
-                  size="sm"
+                <a
+                  href={theme.datasetUrl}
                   target="_blank"
-                  className="w-full justify-center max-w-full group/btn"
+                  rel="noopener noreferrer"
+                  data-dataset-link
+                  class="dataset-btn flex justify-center items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-btn-primary dark:bg-btn-primary-dark text-white max-w-full w-full transition duration-300 pointer-events-none opacity-60 cursor-not-allowed"
                 >
-                  <Database size={14} /> View Dataset <ExternalLink size={13} class="ml-1 opacity-70 group-hover/btn:translate-x-0.5 transition-transform" />
-                </Button>
+                  <Database size={14} class="dataset-icon-unlocked hidden" />
+                  <span class="dataset-btn-text">Dataset Locked</span>
+                  <ExternalLink size={13} class="dataset-icon-unlocked hidden ml-1" />
+                </a>
               </div>
             </div>
           </div>
@@ -216,3 +218,35 @@ const selectionSteps = [
     </section>
   </div>
 </Layout>
+
+<script is:inline>
+  (function () {
+    function updateDatasetButtons() {
+      const isEnabled = localStorage.getItem("aaai_datasets_enabled") === "true";
+      const datasetBtns = document.querySelectorAll("[data-dataset-link]");
+
+      datasetBtns.forEach((btn) => {
+        const textSpan = btn.querySelector(".dataset-btn-text");
+        const icons = btn.querySelectorAll(".dataset-icon-unlocked");
+
+        if (isEnabled) {
+          btn.classList.remove("pointer-events-none", "opacity-60", "cursor-not-allowed");
+          btn.classList.add("hover:bg-btn-primary-hover", "hover:translate-y-[-1px]", "shadow-md");
+          if (textSpan) textSpan.textContent = "View Dataset";
+          icons.forEach((ic) => ic.classList.remove("hidden"));
+        } else {
+          btn.classList.add("pointer-events-none", "opacity-60", "cursor-not-allowed");
+          btn.classList.remove("hover:bg-btn-primary-hover", "hover:translate-y-[-1px]", "shadow-md");
+          if (textSpan) textSpan.textContent = "Dataset Locked";
+          icons.forEach((ic) => ic.classList.add("hidden"));
+        }
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", updateDatasetButtons);
+    } else {
+      updateDatasetButtons();
+    }
+  })();
+</script>

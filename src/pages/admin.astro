@@ -1,0 +1,368 @@
+---
+import PageHeader from "@/components/elements/PageHeader.astro";
+import Badge from "@/components/ui/Badge.astro";
+import Button from "@/components/ui/Button.astro";
+import Layout from "@/layouts/Layout.astro";
+import { teams } from "@/data/teams";
+import { Lock, LogOut, ShieldCheck, Trophy, Database, Check, RefreshCw, AlertCircle, Send } from "@lucide/astro";
+---
+
+<Layout title="Admin Portal — AAAI RAG Hackathon" description="Admin management portal for AAAI RAG Hackathon datasets and results.">
+  <div class="pt-8 pb-16 md:pb-24">
+    <PageHeader
+      title="Admin Portal"
+      description="Manage hackathon dataset access and publish winner results."
+    />
+
+    <section class="site-container">
+      <div class="max-w-3xl mx-auto">
+        <!-- LOGIN CONTAINER (shown when unauthenticated) -->
+        <div id="login-container" class="rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-neutral-200 dark:border-neutral-800 p-8 md:p-12 shadow-lg">
+          <div class="flex flex-col items-center text-center mb-8">
+            <div class="p-4 bg-primary/10 dark:bg-primary/20 rounded-2xl mb-4">
+              <Lock class="w-8 h-8 text-primary" />
+            </div>
+            <h2 class="text-2xl font-bold text-neutral-900 dark:text-neutral-100">Admin Authentication</h2>
+            <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Enter your credentials to access the admin portal.</p>
+          </div>
+
+          <form id="login-form" class="space-y-5" onsubmit="return false;">
+            <div id="login-error" class="hidden p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs flex items-center gap-2">
+              <AlertCircle class="w-4 h-4 flex-shrink-0" />
+              <span>Invalid Admin ID or Password. Please try again.</span>
+            </div>
+
+            <div>
+              <label for="admin-id" class="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider mb-2">Admin ID</label>
+              <input
+                type="text"
+                id="admin-id"
+                required
+                placeholder="Enter Admin ID"
+                class="w-full px-4 py-3 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-neutral-100 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+              />
+            </div>
+
+            <div>
+              <label for="admin-password" class="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider mb-2">Password</label>
+              <input
+                type="password"
+                id="admin-password"
+                required
+                placeholder="Enter Password"
+                class="w-full px-4 py-3 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-neutral-100 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+              />
+            </div>
+
+            <button
+              type="submit"
+              id="login-btn"
+              class="w-full py-3.5 px-6 rounded-xl bg-btn-primary dark:bg-btn-primary-dark text-white font-medium text-sm hover:bg-btn-primary-hover transition duration-200 flex items-center justify-center gap-2"
+            >
+              <ShieldCheck class="w-4 h-4" /> Login to Dashboard
+            </button>
+          </form>
+        </div>
+
+        <!-- DASHBOARD CONTAINER (shown when authenticated) -->
+        <div id="dashboard-container" class="hidden space-y-8">
+          <!-- Admin Header Bar -->
+          <div class="flex items-center justify-between p-4 rounded-xl bg-primary/10 dark:bg-primary/20 border border-primary/20">
+            <div class="flex items-center gap-3">
+              <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></div>
+              <span class="text-sm font-semibold text-neutral-900 dark:text-neutral-100">Logged in as Administrator</span>
+            </div>
+            <button
+              id="logout-btn"
+              class="px-3.5 py-1.5 rounded-lg bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 text-xs font-medium hover:bg-neutral-300 dark:hover:bg-neutral-700 transition flex items-center gap-1.5"
+            >
+              <LogOut class="w-3.5 h-3.5" /> Logout
+            </button>
+          </div>
+
+          <!-- Feature 1: Theme Datasets Access Control -->
+          <div class="p-6 md:p-8 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-neutral-200 dark:border-neutral-800 space-y-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <Database class="w-5 h-5 text-primary" />
+                  <h3 class="text-lg font-bold text-neutral-900 dark:text-neutral-100">Theme Datasets Access</h3>
+                </div>
+                <p class="text-xs text-neutral-500 dark:text-neutral-400">
+                  Control whether participants can view and download Google Drive datasets on the Themes page.
+                </p>
+              </div>
+              <span id="dataset-status-badge">
+                <Badge variant="neutral">DISABLED</Badge>
+              </span>
+            </div>
+
+            <div class="p-4 rounded-lg bg-neutral-100 dark:bg-neutral-900/60 border border-neutral-200 dark:border-neutral-800 text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              <strong>Current Behavior:</strong> When dataset access is <em>disabled</em>, the "View Dataset" buttons on the Themes page are locked and display "Dataset Locked". When <em>enabled</em>, buttons link directly to theme Google Drive folders.
+            </div>
+
+            <div class="flex items-center gap-3">
+              <button
+                id="toggle-datasets-btn"
+                class="px-5 py-2.5 rounded-xl font-medium text-xs transition duration-200 flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white"
+              >
+                <Check class="w-4 h-4" /> Enable Datasets Access
+              </button>
+            </div>
+          </div>
+
+          <!-- Feature 2: Chatbot Submissions Control -->
+          <div class="p-6 md:p-8 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-neutral-200 dark:border-neutral-800 space-y-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <Send class="w-5 h-5 text-primary" />
+                  <h3 class="text-lg font-bold text-neutral-900 dark:text-neutral-100">Chatbot Submissions Control</h3>
+                </div>
+                <p class="text-xs text-neutral-500 dark:text-neutral-400">
+                  Control whether participants can submit chatbot URLs on the Submit Chatbot page.
+                </p>
+              </div>
+              <span id="submissions-status-badge">
+                <Badge variant="success">ENABLED</Badge>
+              </span>
+            </div>
+
+            <div class="p-4 rounded-lg bg-neutral-100 dark:bg-neutral-900/60 border border-neutral-200 dark:border-neutral-800 text-xs text-neutral-600 dark:text-neutral-300 leading-relaxed">
+              <strong>Current Behavior:</strong> When submissions are <em>disabled</em>, the Submit Chatbot form is locked and participants see a "Submissions Closed" banner. When <em>enabled</em>, submissions function normally.
+            </div>
+
+            <div class="flex items-center gap-3">
+              <button
+                id="toggle-submissions-btn"
+                class="px-5 py-2.5 rounded-xl font-medium text-xs transition duration-200 flex items-center gap-2 bg-rose-600 hover:bg-rose-700 text-white"
+              >
+                Disable Chatbot Submissions
+              </button>
+            </div>
+          </div>
+
+          <!-- Feature 2: Select Winners & Publish Results -->
+          <div class="p-6 md:p-8 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-neutral-200 dark:border-neutral-800 space-y-6">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <Trophy class="w-5 h-5 text-accent" />
+                  <h3 class="text-lg font-bold text-neutral-900 dark:text-neutral-100">Hackathon Winners & Results</h3>
+                </div>
+                <p class="text-xs text-neutral-500 dark:text-neutral-400">
+                  Select the winning teams from the qualified 26 teams and publish to the Results page.
+                </p>
+              </div>
+              <span id="results-status-badge">
+                <Badge variant="neutral">RESULTS HIDDEN</Badge>
+              </span>
+            </div>
+
+            <form id="winners-form" class="space-y-4" onsubmit="return false;">
+              <!-- 1st Winner -->
+              <div>
+                <label for="winner-1" class="block text-xs font-semibold text-[#fad13b] uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                  🥇 1st Place Winner
+                </label>
+                <select
+                  id="winner-1"
+                  class="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-neutral-100 text-sm focus:outline-none focus:border-primary"
+                >
+                  <option value="">-- Select 1st Place Team --</option>
+                  {teams.map((t) => (
+                    <option value={t.name}>#{t.rank.toString().padStart(2, '0')} - {t.name} ({t.members.join(', ')})</option>
+                  ))}
+                </select>
+              </div>
+
+              <!-- 2nd Winner -->
+              <div>
+                <label for="winner-2" class="block text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                  🥈 2nd Place Winner
+                </label>
+                <select
+                  id="winner-2"
+                  class="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-neutral-100 text-sm focus:outline-none focus:border-primary"
+                >
+                  <option value="">-- Select 2nd Place Team --</option>
+                  {teams.map((t) => (
+                    <option value={t.name}>#{t.rank.toString().padStart(2, '0')} - {t.name} ({t.members.join(', ')})</option>
+                  ))}
+                </select>
+              </div>
+
+              <!-- 3rd Winner -->
+              <div>
+                <label for="winner-3" class="block text-xs font-semibold text-[#cd7f32] uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                  🥉 3rd Place Winner
+                </label>
+                <select
+                  id="winner-3"
+                  class="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-neutral-900 dark:text-neutral-100 text-sm focus:outline-none focus:border-primary"
+                >
+                  <option value="">-- Select 3rd Place Team --</option>
+                  {teams.map((t) => (
+                    <option value={t.name}>#{t.rank.toString().padStart(2, '0')} - {t.name} ({t.members.join(', ')})</option>
+                  ))}
+                </select>
+              </div>
+
+              <div class="pt-4 flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  id="save-winners-btn"
+                  class="px-5 py-2.5 rounded-xl font-medium text-xs bg-btn-primary dark:bg-btn-primary-dark text-white hover:bg-btn-primary-hover transition flex items-center gap-2"
+                >
+                  <Check class="w-4 h-4" /> Save & Publish Results
+                </button>
+                <button
+                  type="button"
+                  id="reset-results-btn"
+                  class="px-4 py-2.5 rounded-xl font-medium text-xs bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition flex items-center gap-2"
+                >
+                  <RefreshCw class="w-3.5 h-3.5" /> Unpublish Results
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<script is:inline>
+  (function () {
+    const loginContainer = document.getElementById("login-container");
+    const dashboardContainer = document.getElementById("dashboard-container");
+    const loginForm = document.getElementById("login-form");
+    const loginError = document.getElementById("login-error");
+    const adminIdInput = document.getElementById("admin-id");
+    const adminPassInput = document.getElementById("admin-password");
+    const logoutBtn = document.getElementById("logout-btn");
+
+    const toggleDatasetsBtn = document.getElementById("toggle-datasets-btn");
+    const datasetStatusBadge = document.getElementById("dataset-status-badge");
+
+    const toggleSubmissionsBtn = document.getElementById("toggle-submissions-btn");
+    const submissionsStatusBadge = document.getElementById("submissions-status-badge");
+
+    const winner1 = document.getElementById("winner-1");
+    const winner2 = document.getElementById("winner-2");
+    const winner3 = document.getElementById("winner-3");
+    const saveWinnersBtn = document.getElementById("save-winners-btn");
+    const resetResultsBtn = document.getElementById("reset-results-btn");
+    const resultsStatusBadge = document.getElementById("results-status-badge");
+
+    function checkAuth() {
+      const isAuth = localStorage.getItem("aaai_admin_auth") === "true";
+      if (isAuth) {
+        loginContainer.classList.add("hidden");
+        dashboardContainer.classList.remove("hidden");
+        updateDashboardUI();
+      } else {
+        loginContainer.classList.remove("hidden");
+        dashboardContainer.classList.add("hidden");
+      }
+    }
+
+    loginForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const id = adminIdInput.value.trim().toLowerCase();
+      const pass = adminPassInput.value.trim();
+
+      if ((id === "aaaipccoe" || id === "aaaipooce") && pass === "pccoeaaai") {
+        localStorage.setItem("aaai_admin_auth", "true");
+        loginError.classList.add("hidden");
+        checkAuth();
+      } else {
+        loginError.classList.remove("hidden");
+      }
+    });
+
+    logoutBtn.addEventListener("click", function () {
+      localStorage.removeItem("aaai_admin_auth");
+      checkAuth();
+    });
+
+    function updateDashboardUI() {
+      // Dataset access state
+      const datasetsEnabled = localStorage.getItem("aaai_datasets_enabled") === "true";
+      if (datasetsEnabled) {
+        datasetStatusBadge.innerHTML = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">ENABLED</span>';
+        toggleDatasetsBtn.innerHTML = '<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg> Disable Datasets Access';
+        toggleDatasetsBtn.className = "px-5 py-2.5 rounded-xl font-medium text-xs transition duration-200 flex items-center gap-2 bg-rose-600 hover:bg-rose-700 text-white";
+      } else {
+        datasetStatusBadge.innerHTML = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-neutral-500/10 text-neutral-500 border border-neutral-500/20">DISABLED</span>';
+        toggleDatasetsBtn.innerHTML = '<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Enable Datasets Access';
+        toggleDatasetsBtn.className = "px-5 py-2.5 rounded-xl font-medium text-xs transition duration-200 flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white";
+      }
+
+      // Submissions state (enabled by default unless explicitly set to "false")
+      const submissionsDisabled = localStorage.getItem("aaai_submissions_enabled") === "false";
+      if (submissionsDisabled) {
+        submissionsStatusBadge.innerHTML = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">DISABLED</span>';
+        toggleSubmissionsBtn.innerHTML = '<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Enable Chatbot Submissions';
+        toggleSubmissionsBtn.className = "px-5 py-2.5 rounded-xl font-medium text-xs transition duration-200 flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white";
+      } else {
+        submissionsStatusBadge.innerHTML = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">ENABLED</span>';
+        toggleSubmissionsBtn.innerHTML = '<svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg> Disable Chatbot Submissions';
+        toggleSubmissionsBtn.className = "px-5 py-2.5 rounded-xl font-medium text-xs transition duration-200 flex items-center gap-2 bg-rose-600 hover:bg-rose-700 text-white";
+      }
+
+      // Winners state
+      const resultsPublished = localStorage.getItem("aaai_results_published") === "true";
+      const savedWinners = JSON.parse(localStorage.getItem("aaai_winners_data") || "{}");
+
+      if (savedWinners.first) winner1.value = savedWinners.first;
+      if (savedWinners.second) winner2.value = savedWinners.second;
+      if (savedWinners.third) winner3.value = savedWinners.third;
+
+      if (resultsPublished) {
+        resultsStatusBadge.innerHTML = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">RESULTS PUBLISHED</span>';
+      } else {
+        resultsStatusBadge.innerHTML = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-neutral-500/10 text-neutral-500 border border-neutral-500/20">RESULTS HIDDEN</span>';
+      }
+    }
+
+    toggleDatasetsBtn.addEventListener("click", function () {
+      const currentState = localStorage.getItem("aaai_datasets_enabled") === "true";
+      localStorage.setItem("aaai_datasets_enabled", currentState ? "false" : "true");
+      updateDashboardUI();
+      alert(currentState ? "Theme datasets access has been DISABLED." : "Theme datasets access has been ENABLED!");
+    });
+
+    toggleSubmissionsBtn.addEventListener("click", function () {
+      const isCurrentlyDisabled = localStorage.getItem("aaai_submissions_enabled") === "false";
+      localStorage.setItem("aaai_submissions_enabled", isCurrentlyDisabled ? "true" : "false");
+      updateDashboardUI();
+      alert(isCurrentlyDisabled ? "Chatbot submissions have been ENABLED." : "Chatbot submissions have been DISABLED!");
+    });
+
+    saveWinnersBtn.addEventListener("click", function () {
+      const w1 = winner1.value;
+      const w2 = winner2.value;
+      const w3 = winner3.value;
+
+      if (!w1 && !w2 && !w3) {
+        alert("Please select at least 1st place winner before publishing.");
+        return;
+      }
+
+      const winnersObj = { first: w1, second: w2, third: w3 };
+      localStorage.setItem("aaai_winners_data", JSON.stringify(winnersObj));
+      localStorage.setItem("aaai_results_published", "true");
+      updateDashboardUI();
+      alert("Winners saved & published successfully to the Results page!");
+    });
+
+    resetResultsBtn.addEventListener("click", function () {
+      localStorage.setItem("aaai_results_published", "false");
+      updateDashboardUI();
+      alert("Results page has been reset to Coming Soon.");
+    });
+
+    checkAuth();
+  })();
+</script>

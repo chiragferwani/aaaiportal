@@ -1,5 +1,6 @@
 ---
 import SectionHeader from "@/components/elements/SectionHeader.astro";
+import SeparatorLine from "@/components/elements/SeparatorLine.astro";
 import AnimatedText from "@/components/ui/AnimatedText.astro";
 import Badge from "@/components/ui/Badge.astro";
 import Button from "@/components/ui/Button.astro";
@@ -9,6 +10,7 @@ import AnimatedBackground from "@/components/home/AnimatedBackground.astro";
 import {
   ArrowRight,
   Bot,
+  CheckCircle,
   ClipboardCheck,
   Clock,
   Database,
@@ -26,7 +28,7 @@ const stages = [
   {
     num: "01",
     title: "QUALIFY",
-    desc: "Take the Round 1 qualification quiz. Prove your knowledge and earn your spot among the Top 25.",
+    desc: "Take the Round 1 qualification quiz. Prove your knowledge and earn your spot among the Top 26.",
     icon: Trophy,
     color: "text-accent",
   },
@@ -48,7 +50,7 @@ const stages = [
 
 const journeySteps = [
   { icon: FileText, label: "Round 1 Quiz", desc: "Qualification assessment" },
-  { icon: Trophy, label: "Top 25 Selected", desc: "Top performers advance" },
+  { icon: Trophy, label: "Top 26 Selected", desc: "Top performers advance" },
   { icon: Search, label: "Choose Theme", desc: "Select 1 of 5 themes" },
   { icon: Database, label: "Receive Dataset", desc: "Theme files unlocked" },
   { icon: Clock, label: "4-Hour Build", desc: "Construct RAG pipeline" },
@@ -240,40 +242,42 @@ const round2Steps = [
 
   <!-- Round 1 Section -->
   <section class="py-16 md:py-24 site-container">
-    <SectionHeader title="Round 1 — Qualification" description="Your first challenge is to qualify. Take the qualification quiz — the Top 25 teams advance to Round 2." />
-    <div class="max-w-3xl mx-auto mt-8" data-aos="fade-up-xs" data-aos-once="true">
-      <!-- Flow Visualization -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-2">
-        {[
-          { icon: Users, label: "Participants", bg: "bg-primary/10" },
-          { icon: FileText, label: "QUIZ", bg: "bg-accent/15" },
-          { icon: Trophy, label: "TOP 25", bg: "bg-emerald-500/10" },
-          { icon: Zap, label: "ROUND 2", bg: "bg-primary/15" },
-        ].map((step, i) => (
-          <Fragment>
-            <div class="flex flex-col items-center gap-2">
-              <div class={`p-4 rounded-xl ${step.bg} border border-primary/10 dark:border-neutral-700`}>
-                <step.icon class="w-6 h-6 text-primary" />
-              </div>
-              <span class="text-xs font-semibold text-neutral-600 dark:text-neutral-300 uppercase tracking-wider">{step.label}</span>
+    <SectionHeader title="Round 1 — Qualification" description="Your first challenge is to qualify. Take the qualification quiz — the Top 26 teams advance to Round 2." />
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto my-12">
+      {[
+        { icon: FileText, title: "Knowledge Quiz", desc: "Test your understanding of LLMs, RAG architectures, and AI fundamentals." },
+        { icon: Trophy, label: "TOP 26", bg: "bg-emerald-500/10" },
+        { icon: CheckCircle, title: "Instant Results", desc: "Highest scoring teams move directly to Round 2." },
+      ].map((card) => (
+        card.title ? (
+          <div class="p-6 rounded-xl bg-bg-secondary dark:bg-bg-secondary-dark border border-primary/10 dark:border-neutral-700 flex flex-col justify-between hover:border-primary/30 transition-all duration-300">
+            <div>
+              <card.icon class="w-8 h-8 text-primary mb-4" />
+              <h3 class="text-lg font-semibold text-neutral-800 dark:text-neutral-100 mb-2">{card.title}</h3>
+              <p class="text-sm text-neutral-500 dark:text-neutral-400">{card.desc}</p>
             </div>
-            {i < 3 && (
-              <ArrowRight class="w-5 h-5 text-primary/30 hidden sm:block flex-shrink-0" />
-            )}
-          </Fragment>
-        ))}
-      </div>
-      <div class="flex justify-center mt-10">
-        <Button url="/top-25" type="fill">View Top 25 Teams <ArrowRight size={16} /></Button>
-      </div>
+          </div>
+        ) : (
+          <div class="p-6 rounded-xl bg-primary/10 dark:bg-primary/20 border border-primary/20 flex flex-col items-center justify-center text-center">
+            <card.icon class="w-10 h-10 text-primary mb-2" />
+            <span class="text-2xl font-brand text-primary font-bold">{card.label}</span>
+            <span class="text-xs text-neutral-500 dark:text-neutral-400 font-medium">QUALIFIED TEAMS</span>
+          </div>
+        )
+      ))}
+    </div>
+
+    <div class="flex justify-center">
+      <Button url="/top-26" type="fill">View Top 26 Teams <ArrowRight size={16} /></Button>
     </div>
   </section>
 
-  <div class="w-full border-b border-dashed border-neutral-200 dark:border-neutral-700 my-4 site-container"></div>
+  <SeparatorLine />
 
-  <!-- Round 2 Preview -->
-  <section class="py-16 md:py-24 site-container">
-    <SectionHeader title="Round 2 — The RAG Challenge" description="Top 25 teams choose a theme, receive a dataset, and build a RAG-powered chatbot in 4 hours." />
+  <!-- Round 2 Section -->
+  <section class="py-16 md:py-24 site-container" data-aos="fade-up-xs" data-aos-once="true">
+    <SectionHeader title="Round 2 — The RAG Challenge" description="Top 26 teams choose a theme, receive a dataset, and build a RAG-powered chatbot in 4 hours." />
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mt-8 max-w-4xl mx-auto">
       {round2Steps.map((step, i) => (
         <div
